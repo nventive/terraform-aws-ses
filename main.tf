@@ -30,8 +30,9 @@ module "ses" {
 resource "aws_ses_domain_mail_from" "default" {
   count = local.use_custom_mail_from ? 1 : 0
 
-  domain           = var.domain
-  mail_from_domain = "${var.mail_from_domain}.${var.domain}"
+  domain                 = var.domain
+  mail_from_domain       = "${var.mail_from_domain}.${var.domain}"
+  behavior_on_mx_failure = var.behavior_on_mx_failure
 }
 
 resource "aws_route53_record" "ses_domain_mail_from_mx" {
