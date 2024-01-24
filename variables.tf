@@ -77,6 +77,19 @@ variable "mail_from_domain" {
   default     = ""
 }
 
+variable "behavior_on_mx_failure" {
+  type        = string
+  description = <<-EOT
+    The action that you want Amazon SES to take if it cannot successfully read the required MX record when you send an email.
+    Valid values are: `UseDefaultValue` and `RejectMessage`.
+  EOT
+  default     = "UseDefaultValue"
+  validation {
+    condition     = var.behavior_on_mx_failure == "UseDefaultValue" || var.behavior_on_mx_failure == "RejectMessage"
+    error_message = "The behavior_on_mx_failure must be either `UseDefaultValue` or `RejectMessage`."
+  }
+}
+
 variable "custom_spf_enabled" {
   type        = bool
   description = "Creates a Route53 SPF TXT entry for the custom MAIL FROM domain."
